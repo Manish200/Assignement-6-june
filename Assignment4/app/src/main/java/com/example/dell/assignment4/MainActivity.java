@@ -1,8 +1,12 @@
 package com.example.dell.assignment4;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,17 +19,28 @@ public class MainActivity extends AppCompatActivity {
 
     String states;
     int position;
+    static public int ex = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(ex == 1)
+            finish();
+
+
         setContentView(R.layout.activity_main);
+
+
+
 
         final EditText name = findViewById(R.id.edit_name);
         final EditText email = findViewById(R.id.email);
         final EditText mobileNo = findViewById(R.id.MobNo);
         final EditText city = findViewById(R.id.City);
         final Spinner state = findViewById(R.id.statename);
-       Button submit = findViewById(R.id.submit);
+        Button submit = findViewById(R.id.submit);
 
         final String ALLstates[] = {"Uttrakhand", "Uttar Pradesh", "Himachal Pradesh", "Madhya Pradesh", "Odisha"};
 
@@ -46,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        if(ex == 1)
+            finish();
+
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        if(ex == 1)
+            finish();
+
         name.setText(getIntent().getStringExtra("name2"));
         email.setText(getIntent().getStringExtra("mail2"));
         mobileNo.setText(getIntent().getStringExtra("phone2"));
@@ -69,5 +93,58 @@ public class MainActivity extends AppCompatActivity {
         state.setSelection(position);
 
 
+
+
     }
+
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_editor.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.Exit:
+                newGame();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void newGame() {
+
+
+            AlertDialog.Builder a_builder = new AlertDialog.Builder(MainActivity.this);
+            a_builder.setMessage("ADo You want to close this APP")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = a_builder.create();
+            alert.setTitle("ALERT");
+            alert.show();
+
+
+    }
+
 }
